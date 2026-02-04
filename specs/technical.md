@@ -1,15 +1,18 @@
-# Project Chimera Technical Specifications
+# Project Chimera - Technical Specifications
 
-## Example Payload: Trend Data
+## API Contracts
+
+### Agent Task API
+**Request:**
+```json
 {
-  "trend_id": "string",
-  "platform": "twitter | tiktok | instagram",
-  "topic": "string",
-  "velocity_score": "float (0-1)",
-  "timestamp": "iso-8601"
+  "task_id": "uuid-v4",
+  "task_type": "generate_content | reply_comment | execute_transaction",
+  "priority": "high | medium | low",
+  "context": {
+    "goal_description": "string",
+    "persona_constraints": ["string"],
+    "required_resources": ["mcp://twitter/mentions/123"]
+  },
+  "assigned_worker_id": "string"
 }
-
-## Failure Modes
-- Missing or malformed payload → agent raises `ValidationError`
-- Unreachable platform → agent marks trend as `degraded`
-- Low-confidence scoring → escalate to Judge → HITL escalation
