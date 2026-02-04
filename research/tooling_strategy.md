@@ -1,57 +1,60 @@
-1. Development Tooling
+# Project Chimera Tooling Strategy
 
-Language: Python for core logic, services, and MCP integration.
+## 1. Overview
+Project Chimera relies on specialized tools and protocols to maintain agent autonomy, coordination, and interaction with external systems. Tooling ensures agents can perceive, act, and transact without hard-coded dependencies.
 
-Schema & Validation: Pydantic models for AgentPersona, Task, Result.
+## 2. Core Tooling Components
 
-Versioning / GitOps: SOUL.md and configuration files for agent personas.
+### 2.1 MCP Tools & Resources
+- **Tools:** Executable functions exposed via MCP Servers.
+  - Examples: `generate_image()`, `send_transaction()`, `post_tweet()`.
+- **Resources:** Data sources agents can read.
+  - Examples: `twitter://mentions/recent`, `news://ethiopia/fashion/trends`.
+- **Prompts:** Standardized LLM instructions for task execution and reasoning.
 
-1. Agent Tooling
+### 2.2 Cognitive & Creative Tools
+- LLMs: Gemini 3 Pro / Claude Opus for reasoning.
+- Retrieval-Augmented Generation (RAG) for context-aware content.
+- Image/Video generation via Ideogram, MidJourney, Runway, Luma.
 
-MCP SDK: Standard interface for Tools, Resources, and Prompts.
+### 2.3 Perception & Filtering
+- Semantic filtering ensures relevance before task creation.
+- Trend detection triggers content opportunities.
+- Episodic memory (Redis) + long-term semantic memory (Weaviate).
 
-Content Generation Tools:
+### 2.4 Orchestration & Task Management
+- Redis-based queues: `task_queue` (Planner → Worker), `review_queue` (Worker → Judge).
+- Planner generates DAG of tasks.
+- Judge validates output with confidence scores; escalates to HITL if required.
+- OCC ensures global state consistency.
 
-Text: Gemini 3 Pro / Claude Opus
+### 2.5 Agentic Commerce Tools
+- **Coinbase AgentKit:** wallet management, transaction execution, financial oversight.
+- Automated budget enforcement via Redis + Judge ("CFO").
+- Enables autonomous on-chain economic actions: transfers, token deployment, resource payments.
 
-Images: Ideogram, MidJourney
+### 2.6 Social Networking Protocols
+- Standardized agent-agent interaction methods:
+  - Peer messaging
+  - Broadcast events
+  - Reputation endorsements
+  - Negotiation/contracting
+- Protocol ensures social signaling and collaboration while maintaining security and resource isolation.
 
-Video: Runway, Luma
+## 3. Developer Tooling
+- Python SDKs for MCP and AgentKit.
+- Pydantic for strict schema validation.
+- CLI/API access for developers.
+- UI: React Dashboard for Network Operators and HITL Moderators.
 
-Memory Management:
+## 4. Integration Strategy
+- MCP abstracts external APIs → minimal coupling.
+- Social network and commerce functionality encapsulated as reusable Tools.
+- Agents operate with swappable backends (social media, databases, financial systems).
+- Continuous monitoring for platform changes (API volatility, cost spikes).
 
-Long-term: Weaviate vector DB
-
-Short-term: Redis for episodic memory and task queues
-
-1. Infrastructure & Orchestration
-
-Compute: Kubernetes (AWS/GCP) for containerized agent workloads.
-
-Task Queues: Redis / BullMQ for Planner → Worker → Judge task flow.
-
-Ledger: On-chain (Ethereum, Solana, Base) for agentic commerce transactions.
-
-1. Monitoring & Governance
-
-Judge Agents: Automated validation with Optimistic Concurrency Control.
-
-HITL Dashboard: React + Tailwind; shows confidence scores, queues, and alerts.
-
-Resource Governor: Limits compute cost and budget usage.
-
-CFO Sub-Agent: Monitors agent financial actions against thresholds.
-
-1. Collaboration & Social Network Tooling
-
-Social Protocol Implementations:
-
-JSON schemas for peer-to-peer messages (task_id, sender, recipient, type, confidence_score)
-
-Broadcasts, endorsements, trend alerts, peer-to-peer task coordination
-
-Testing & Simulation:
-
-Local MCP servers for social feed simulation
-
-Mock wallets and test transactions
+## 5. Research Notes
+- Tooling strategy ensures full autonomy while preserving governance.
+- MCP is the "universal interface" standardizing all agent interactions.
+- Swarm-based tooling allows massive parallelization and fail-safe execution.
+- Supports OpenClaw-like social network dynamics where agents communicate, collaborate, and trade economically.
