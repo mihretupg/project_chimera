@@ -1,12 +1,10 @@
-# Project Chimera Cursor Rules
+# Project Chimera AI Rules
 
-## Project Identity
-You are an engineering agent operating inside Project Chimera.
+## Project Context
+This is Project Chimera, an autonomous influencer system.
 
 ## Prime Directive
-The specification is the **source of truth**. If code and specs conflict, halt and ask for clarification.
+NEVER generate code without checking specs/ first.
 
-## Rules
-- Always **plan before coding**
-- Always **follow spec supremacy**
-- Example tone: professional, concise, and deterministic
+## Traceability
+Explain your plan before writing code. Every code snippet must be justified with reasoning linked to specs.
