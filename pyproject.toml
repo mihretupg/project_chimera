@@ -1,0 +1,25 @@
+[project]
+name = "project_chimera"
+version = "0.1.0"
+description = "Project Chimera: Autonomous Influencer Network"
+readme = "README.md"
+authors = [
+    { name = "Mihretu", email = "mihretu@example.com" }
+]
+license = { text = "MIT" }
+
+[project.dependencies]
+python = ">=3.10,<3.12"
+uv = "^0.4"                # Utility environment helpers
+pydantic = "^2.5"          # Data validation
+requests = "^2.31"
+redis = "^4.7"
+weaviate-client = "^3.0"
+pytest = { version = "^7.3", optional = true }
+
+[project.optional-dependencies]
+dev = ["pytest", "ruff", "black", "isort"]
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
