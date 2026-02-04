@@ -1,0 +1,40 @@
+# CodeRabbit AI Review Configuration
+version: 1.0
+
+review:
+  description: >
+    This policy instructs AI reviewers to enforce Spec Alignment, Safety, and Security
+    for all commits pushed by Project Chimera agents or humans.
+
+  checks:
+    - name: Spec Alignment
+      type: functional
+      description: >
+        Ensure that every code module and folder corresponds to the specifications
+        in specs/ and that critical files (functional.md, technical.md) exist.
+      action: fail_on_missing
+
+    - name: Security Vulnerabilities
+      type: static_analysis
+      description: >
+        Detect common Python security issues (e.g., secrets in code, unsafe eval,
+        dependency vulnerabilities).
+      tools:
+        - bandit
+        - safety
+
+    - name: Test Coverage
+      type: functional
+      description: >
+        Ensure that the new or modified code has corresponding tests in the tests/ directory.
+      action: warn_on_missing
+
+    - name: AI Best Practices
+      type: advisory
+      description: >
+        Check that no agent writes code outside the approved workflows
+        (e.g., do not bypass specs/ or write directly to production folders).
+
+  enforcement:
+    on_push: fail
+    on_pull_request: warn
