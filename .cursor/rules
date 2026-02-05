@@ -1,10 +1,13 @@
 # Project Chimera AI Rules
 
 ## Project Context
+
 This is Project Chimera, an autonomous influencer system.
 
 ## Prime Directive
+
 NEVER generate code without checking specs/ first.
 
 ## Traceability
+
 Explain your plan before writing code. Every code snippet must be justified with reasoning linked to specs.
