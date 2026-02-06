@@ -1,18 +1,38 @@
-﻿# Project Chimera
+# Project Chimera
 
-Project Chimera is an Autonomous Influencer Network prototype. This repository provides the golden environment setup used by the team.
+Project Chimera is an Autonomous Influencer Network prototype. This repository contains the baseline environment, specifications, and scaffolding needed to build and validate the system described in the SRS/SDD.
 
-## Purpose
+## What’s Included
+- `specs/`: SRS, SDD, and supporting specifications
+- `skills/`: Skill contracts and Python module stubs
+- `tests/`: Baseline tests for skill schemas and trend fetcher
+- `scripts/`: Spec validation helpers
+- `Dockerfile`, `Makefile`: Build and test automation
+- `.github/workflows/`: CI checks for repository structure
 
-- Initialize the Git repository.
-- Connect Tenx MCP Sense to VS Code.
-- Configure a professional Python environment using `uv`.
+## Prerequisites
+- Python 3.10+ (local development)
+- Docker (for container builds)
+- Make (optional, for `make build`)
 
-## Setup Instructions
+## Quick Start (Local)
+```bash
+python -m pip install -e ".[dev]"
+python -m pytest -q
+```
 
-1. MCP Connection
+## Docker Build
+```bash
+docker build -t project_chimera:latest .
+```
 
-- Ensure `mcp_config.json` is present with the correct headers:
+## Spec Checks
+```bash
+python scripts/spec_check.py
+```
+
+## MCP Sense (Optional)
+If you are connecting to Tenx MCP Sense, ensure `mcp_config.json` exists with the correct headers:
 
 ```json
 {
@@ -30,41 +50,17 @@ Project Chimera is an Autonomous Influencer Network prototype. This repository p
 }
 ```
 
-- Start MCP Sense:
-
+Start MCP Sense:
 ```bash
 mcp-sense --config mcp_config.json
 ```
 
-- Confirm the connection in the logs.
+Confirm the connection in logs.
 
-2.Python Environment
+## Repository Readiness
+The repository includes the required structure for submission:
+- `specs/`, `tests/`, `skills/`
+- `Dockerfile`, `Makefile`
+- `.github/workflows/`
 
-- Install `uv`:
-
-```bash
-pip install uv
-```
-
-- Initialize the environment:
-
-```bash
-uv init
-uv shell
-```
-
-- Confirm the Python version:
-
-```bash
-python --version
-```
-
-## Deliverables
-
-- Confirmed MCP Sense connection log.
-- `pyproject.toml` file for the project environment.
-
-## Notes
-
-This is the foundational setup for Project Chimera. All future development and configurations build on this environment
-
+See `SPEC_CHECKLIST.md` for a concise validation checklist.
