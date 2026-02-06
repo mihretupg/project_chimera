@@ -2,7 +2,7 @@
 
 Project Chimera is an Autonomous Influencer Network prototype. This repository contains the baseline environment, specifications, and scaffolding needed to build and validate the system described in the SRS/SDD.
 
-## What’s Included
+## What's Included
 - `specs/`: SRS, SDD, and supporting specifications
 - `skills/`: Skill contracts and Python module stubs
 - `tests/`: Baseline tests for skill schemas and trend fetcher
