@@ -1,0 +1,17 @@
+﻿# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# Environments
+.venv/
+venv/
+
+# Tooling
+.spec/checkpoint
+specs/.speckit.json
+
+# OS
+.DS_Store
+Thumbs.db
