@@ -2,7 +2,8 @@
 
 setup:
 	@echo "Installing Python dependencies..."
-	poetry install
+	python -m pip install --upgrade pip
+	python -m pip install -e ".[dev]"
 
 build:
 	docker build -t project_chimera:latest .
