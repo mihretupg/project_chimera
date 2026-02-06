@@ -1,11 +1,5 @@
 ﻿# MCP Chat History
 
-## 2026-02-06
+## Summary (2026-02-06)
 
-**12:50:27.993** - User: Started MCP server; saw warning about resource metadata fetch failing (404).
-**12:50:27.993** - MCP Sense: `Error fetching resource metadata: Error: Failed to fetch resource metadata from https://mcppulse.10academy.org/.well-known/oauth-protected-resource: 404 Not Found`
-**12:50:27.996** - MCP Sense: `Discovered resource metadata at https://mcppulse.10academy.org/.well-known/oauth-protected-resource/proxy`
-**12:50:27.996** - MCP Sense: `Using auth server metadata url: https://mcppulse.10academy.org/`
-**12:50:28.126** - MCP Sense: `Discovered authorization server metadata at https://mcppulse.10academy.org/.well-known/oauth-authorization-server`
-**12:50:30.326** - MCP Sense: `Discovered 3 tools`
-**12:50:31.000** - User: Decided to use Codex in the IDE to troubleshoot and document the issue.
+I attempted to start the MCP server and immediately ran into a warning about resource metadata: the request to `/.well-known/oauth-protected-resource` returned a 404. Right after that, the server successfully discovered metadata at the `/proxy` endpoint, used `https://mcppulse.10academy.org/` for the auth server metadata, and confirmed the authorization server metadata at `/.well-known/oauth-authorization-server`. The server then reported that it discovered three tools. Given the initial warning and the mixed signals, I decided to use Codex inside the IDE to troubleshoot and document the issue clearly.
