@@ -1,53 +1,66 @@
 # Project Chimera Architecture Strategy
 
 ## 1. Overview
-Project Chimera is designed as a scalable, autonomous influencer network integrating the OpenClaw Agent Social Network. Its architecture supports thousands of autonomous agents coordinated via a Central Orchestrator. Agents operate as Planners, Workers, and Judges within the FastRender Swarm, interacting externally through the Model Context Protocol (MCP) and economically via Agentic Commerce.
+Project Chimera is a scalable autonomous influencer network with a centralized orchestration layer, a structured agent swarm, and strict safety governance. The system integrates external tools through MCP and participates in OpenClaw for agent-to-agent status and availability.
 
-## 2. Core Architectural Layers
+## 2. Agent Pattern Selection
+**Chosen Pattern: Hierarchical Swarm (Planner -> Worker -> Judge) with a Super-Orchestrator**
 
-### 2.1 Central Orchestrator
-- Hub for all agent operations.
-- Manages strategic goals, global state, multi-tenant clients.
-- Delegates execution to Manager Agents and Worker Swarms.
-- Provides real-time dashboard for operators.
+**Why this fits best:**
+- Supports thousands of agents with centralized policy control and auditability.
+- Separates planning, execution, and evaluation for clear accountability.
+- Enables dynamic routing to HITL when confidence is low or safety risks are detected.
 
-### 2.2 FastRender Swarm
-- **Planner:** Strategizes high-level goals and decomposes tasks.
-- **Worker:** Executes atomic tasks (content creation, social actions).
-- **Judge:** Validates output, enforces policies, triggers HITL escalation.
+**Alternative Considered: Sequential Chain**
+- Rejected because it introduces serial bottlenecks and weaker fault isolation at scale.
 
-### 2.3 Model Context Protocol (MCP)
-- Standardizes all external interactions.
-- **MCP Host:** Agent runtime environment.
-- **MCP Servers:** API wrappers (social media, vector DBs, Coinbase AgentKit, etc.).
-- Provides Tools, Resources, and Prompts to agents.
+## 3. Human-in-the-Loop (HITL) Approval Points
+HITL is enforced at explicit policy gates:
+- **Content Safety Gate:** Any content flagged for safety, policy, or platform risk.
+- **Brand/Legal Gate:** Claims, endorsements, or regulated topics.
+- **Budget Gate:** Transactions or paid promotions above a threshold.
+- **Low-Confidence Gate:** Judge returns confidence below the threshold or ambiguous results.
 
-### 2.4 Agentic Commerce Layer
-- Each agent has a non-custodial crypto wallet.
-- Enables autonomous financial actions: P2P transfers, token deployment, resource payments.
-- Managed by a specialized Judge ("CFO") enforcing budget policies.
+## 4. Data Architecture: SQL vs NoSQL
+**Decision: SQL (PostgreSQL) as the system of record.**
 
-### 2.5 Agent Social Network (OpenClaw Integration)
-- Enables peer-to-peer interactions between agents:
-  - Messaging
-  - Broadcast events
-  - Endorsements
-  - Economic negotiations
-- Facilitates social signaling, collaboration, and reputation-building between agents.
+**Rationale:**
+- Video metadata is highly relational (agents, platforms, campaigns, posts).
+- Strong consistency and transactional integrity are required for governance.
+- Supports analytics queries and traceability with indexes and partitions.
 
-## 3. High-Level Topology
-- **Hub-and-Spoke:** Central Orchestrator (hub) → Agent Swarms (spokes).
-- Horizontal scalability to 1,000+ agents.
-- Agents interact externally via MCP, internally via Swarm orchestration.
-- All social actions, content generation, and financial operations routed through standardized APIs (no direct calls).
+**Supporting Stores:**
+- **Object storage** for raw payloads and large media metadata blobs.
+- **Redis** for queueing and ephemeral task state.
 
-## 4. Scalability & Governance
-- Self-healing workflows for error recovery.
-- Optimistic Concurrency Control (OCC) ensures state consistency.
-- BoardKit governance pattern: central policies propagate instantly to all agents.
-- HITL framework ensures safety, ethical compliance, and sensitive content review.
+## 5. High-Level Topology
+```mermaid
+flowchart LR
+  Human[HITL Reviewers]
+  Orchestrator[Super-Orchestrator]
+  Planner[Planner Agents]
+  Worker[Worker Agents]
+  Judge[Judge Agents]
+  MCP[MCP Host + Servers]
+  DB[(PostgreSQL)]
+  Cache[(Redis)]
+  Store[(Object Storage)]
+  OpenClaw[OpenClaw Network]
 
-## 5. Research Notes
-- Chimera aligns with OpenClaw’s vision: autonomous agents forming their own social network.
-- Social interactions are structured, protocol-driven, and financially integrated.
-- Agents are independent yet coordinated, supporting both operational efficiency and emergent behaviors.
+  Human --> Orchestrator
+  Orchestrator --> Planner
+  Planner --> Worker
+  Worker --> Judge
+  Judge --> Orchestrator
+
+  Worker --> MCP
+  MCP --> DB
+  MCP --> Cache
+  MCP --> Store
+  Orchestrator --> OpenClaw
+```
+
+## 6. Scalability and Governance
+- Horizontal scaling through stateless workers and partitioned queues.
+- Policy enforcement centralized in the Orchestrator and Judge layer.
+- Full traceability via request_id/trace_id from ingress to publication.

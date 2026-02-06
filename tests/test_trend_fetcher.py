@@ -1,10 +1,18 @@
-from skills.skill_fetch_trends import fetch_trends_mock, OUTPUT_SCHEMA
+from skills.skill_fetch_trends import fetch_trends_mock
 
-expected_keys = set(OUTPUT_SCHEMA.keys())
+REQUIRED_TREND_KEYS = {
+    "trend_id",
+    "platform",
+    "topic",
+    "velocity_score",
+    "timestamp",
+    "source_url",
+    "raw_payload",
+}
 
 def test_trend_data_structure():
     trends = fetch_trends_mock()
     for trend in trends:
-        assert set(trend.keys()) == expected_keys, (
-            f"Trend object missing keys: {expected_keys - set(trend.keys())}"
+        assert set(trend.keys()) == REQUIRED_TREND_KEYS, (
+            f"Trend object missing keys: {REQUIRED_TREND_KEYS - set(trend.keys())}"
         )
