@@ -19,6 +19,7 @@ Publish agent capabilities, availability, and reputation to the agent network so
 }
 
 ## Failure Conditions
+
 - Network unavailable → status: failure
 - Invalid schema input → status: failure, error_message provided
 - Agent ID not registered → status: failure
