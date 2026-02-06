@@ -1,0 +1,23 @@
+﻿name: repo-structure-check
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  verify-structure:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Verify required files and directories
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -d specs
+          test -d tests
+          test -d skills
+          test -d .github/workflows
+          test -f Dockerfile
+          test -f Makefile
+          echo "Structure OK"
