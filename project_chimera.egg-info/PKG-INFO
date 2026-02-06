@@ -1,3 +1,22 @@
+Metadata-Version: 2.4
+Name: project_chimera
+Version: 0.1.0
+Summary: Project Chimera: Autonomous Influencer Network
+Author-email: Mihretu <mihretu@example.com>
+License: MIT
+Requires-Python: <3.12,>=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: uv>=0.4
+Requires-Dist: pydantic>=2.5
+Requires-Dist: requests>=2.31
+Requires-Dist: redis>=4.7
+Requires-Dist: weaviate-client>=3.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.3; extra == "dev"
+Requires-Dist: ruff; extra == "dev"
+Requires-Dist: black; extra == "dev"
+Requires-Dist: isort; extra == "dev"
+
 ﻿# Project Chimera
 
 Project Chimera is an Autonomous Influencer Network prototype. This repository provides the golden environment setup used by the team.
